@@ -13,33 +13,13 @@
     <form action="hello" method="post">
         <table>
             @csrf
-            @error('name')
-                <tr>
-                    <th>ERROR:</th>
-                    <td>{{$message}}</td>
-                </tr>
-            @enderror
+            @if ($errors->has('msg'))
+                <tr>ERROR:</tr>
+                <th>{{$errors->first('msg')}}</th>
+            @endif
             <tr>
-                <th>name: </th>
-                <td><input type="text" name="name" value="{{old('name')}}"></td>
-            </tr>
-            @error('mail')
-                <th>ERROR:</th>
-                <td>{{$message}}</td>
-            @enderror
-            <tr>
-                <th>mail: </th>
-                <td><input type="text" name="mail" value="{{old('mail')}}"></td>
-            </tr>
-            @error('age')
-                <th>ERROR:</th>
-                <td>{{$message}}</td>
-            @enderror
-            <tr>
-                <th>age: </th>
-                <td><input type="text" name="age" value="{{old('age')}}"></td>
-            </tr>
-            <tr>
+                <th>Message: </th>
+                <td><input type="text" name="msg" value="{{old('msg')}}"></td>
                 <th></th>
                 <td><input type="submit" value="send"></td>
             </tr>
