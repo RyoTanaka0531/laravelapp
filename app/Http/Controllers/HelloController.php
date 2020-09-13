@@ -8,17 +8,19 @@ use App\Http\Requests\HelloRequest;
 use Validator;
 use Illuminate\Support\Facades\DB;
 use App\Person;
+use Illuminate\Support\Facades\Auth;
 
 class HelloController extends Controller
 {
     public function index(Request $request)
     {
+        $user = Auth::user();
         // sortの値を変数に取り出し、orderByの引数に指定している。
         // こうすることでクエリー文字列としてsort=〇〇と渡されたフィールド名でレコードを並べ替えれる。
         $sort = $request->sort;
         // $items = DB::table('people')->orderBy('age', 'asc')->simplePaginate(5);
         $items = Person::orderBy($sort, 'asc')->paginate(5);
-        $param = ['items' => $items, 'sort' => $sort];
+        $param = ['items' => $items, 'sort' => $sort, 'user' => $user];
         return view('hello.index', $param);
     }
 
@@ -110,5 +112,23 @@ class HelloController extends Controller
         // 値に名前をつけて保存する。
         $request->session()->put('msg', $msg);
         return redirect('hello/session');
+    }
+
+    public function getAuth(Request $request)
+    {
+        $param = ['message' =>  "ログインしてください。"];
+        return view('hello.auth', $param);
+    }
+
+    public function postAuth(Request $request)
+    {
+        $email = $request->email;
+        $password = $request->password;
+        if (Auth::attempt(['email' => $email, 'passowrd' => $password])){
+            $msg = 'ログインしました。';
+        } else{
+            $msg = 'ログインに失敗しました。';
+        };
+        return view('hello.auth', ['message' => $msg]);
     }
 }
