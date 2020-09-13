@@ -89,4 +89,20 @@ class HelloController extends Controller
     {
         return view('hello.rest');
     }
+
+    public function ses_get(Request $request)
+    {
+        // 入力されたセッションデータの名前を指定して値を取得する。
+        $sesdata = $request->session()->get('msg');
+        return view('hello.session', ['session_data' => $sesdata]);
+    }
+
+    public function ses_put(Request $request)
+    {
+        // 入力された値を$msgという変数に代入
+        $msg = $request->input;
+        // 値に名前をつけて保存する。
+        $request->session()->put('msg', $msg);
+        return redirect('hello/session');
+    }
 }
