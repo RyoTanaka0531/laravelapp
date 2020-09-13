@@ -6,6 +6,8 @@ use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
+use App\User;
+use App\Person;
 
 class HelloTest extends TestCase
 {
@@ -14,17 +16,33 @@ class HelloTest extends TestCase
      *
      * @return void
      */
+    use DatabaseMigrations;
     public function testHello()
     {
-        $this->assertTrue(true);
+        factory(User::class)->create([
+            'name' => 'AAA',
+            'email' => 'BBB@CCC.COM',
+            'password' => 'ABCABC',
+        ]);
+        factory(User::class, 10)->create();
 
-        $arr = [];
-        $this->assertEmpty($arr);
+        $this->assertDatabaseHas('users', [
+            'name' => 'AAA',
+            'email' => 'BBB@CCC.COM',
+            'password' => 'ABCABC',
+        ]);
 
-        $msg = "Hello";
-        $this->assertEquals('Hello', $msg);
+        // factory(Person::class)->create([
+        //     'name' => 'XXXXXX',
+        //     'mail' => 'YYY@ZZZ.COM',
+        //     'age' => 123,
+        // ]);
+        // factory(Person::class, 10)->create();
 
-        $n = random_int(0, 100);
-        $this->assertLessThan(100, $n);
+        // $this->assertDatabaseHas('people', [
+        //     'name' => 'XXX',
+        //     'mail' => 'YYY@ZZZ.COM',
+        //     'age' => 123,
+        // ]);
     }
 }
