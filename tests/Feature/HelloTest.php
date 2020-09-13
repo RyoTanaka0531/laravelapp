@@ -32,17 +32,17 @@ class HelloTest extends TestCase
             'password' => 'ABCABC',
         ]);
 
-        // factory(Person::class)->create([
-        //     'name' => 'XXXXXX',
-        //     'mail' => 'YYY@ZZZ.COM',
-        //     'age' => 123,
-        // ]);
-        // factory(Person::class, 10)->create();
+        factory(Person::class)->create([
+            'name' => 'XXXXXX',
+            'mail' => 'YYY@ZZZ.COM',
+            'age' => 123,
+        ]);
+        factory(Person::class, 10)->create();
 
-        // $this->assertDatabaseHas('people', [
-        //     'name' => 'XXX',
-        //     'mail' => 'YYY@ZZZ.COM',
-        //     'age' => 123,
-        // ]);
+        $this->assertDatabaseHas('people', [
+            'name' => 'XXX',
+            'mail' => 'YYY@ZZZ.COM',
+            'age' => 123,
+        ]);
     }
 }
